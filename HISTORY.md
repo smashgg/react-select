@@ -1,5 +1,35 @@
 # React-Select
 
+## v0.6.1 / 2015-08-09
+
+* added; Support for options with numeric values, thanks [Dave Brotherstone](https://github.com/bruderstein)
+* changed; Disabled options now appear in the search results , thanks [Dave Brotherstone](https://github.com/bruderstein)
+* fixed; asyncOptions are reloaded on componentWillReceiveProps when the value has changed, thanks [Francis Cote](https://github.com/drfeelgoud)
+* added; `cacheAsyncResults` prop (default `true`) now controls whether the internal cache is used for `asyncOptions`
+
+## v0.6.0 / 2015-08-05
+
+* improved; option, value and single value have been split out into their own components, and can be customised with props. see [#328](https://github.com/JedWatson/react-select/pull/328) for more details.
+* improved; Near-complete test coverage thanks to the awesome work of [Dave Brotherstone](https://github.com/bruderstein)
+* improved; Support all alpha/beta/rc's of React 0.14.0, thanks [Sébastien Lorber](https://github.com/slorber)
+* fixed; Close multi-select menu when tabbing away, thanks [Ben Alpert](https://github.com/spicyj)
+* fixed; Bug where Select shows the value instead of the label (reapplying fix)
+* fixed; `valueRenderer` now works when `multi={false}`, thanks [Chris Portela](https://github.com/0xCMP)
+* added; New property `backspaceRemoves` (default `true`), allows the default behaviour of removing values with backspace when `multi={true}`, thanks [Leo Lehikoinen](https://github.com/lehikol2)
+
+## v0.5.6 / 2015-07-27
+
+* fixed; Allow entering of commas when allowCreate is on but multi is off, thanks [Angelo DiNardi](https://github.com/adinardi)
+* fixed; Times (clear) character is now rendered from string unicode character for consistent output, thanks [Nibbles](https://github.com/Siliconrob)
+* fixed; allowCreate bug, thanks [goodzsq](https://github.com/goodzsq)
+* fixed; changes to props.placeholder weren't being reflected correctly, thanks [alesn](https://github.com/alesn)
+* fixed; error when escape is pressedn where `clearValue` was not passed the event, thanks [Mikhail Kotelnikov](https://github.com/mkotelnikov)
+* added; More tests, thanks [Dave Brotherstone](https://github.com/bruderstein)
+
+## v0.5.5 / 2015-07-12
+
+* fixed; replaced usage of `component.getDOMNode()` with `React.findDOMNode(component)` for compatibility with React 0.14
+
 ## v0.5.4 / 2015-07-06
 
 * fixed; regression in 0.5.3 that broke componentWillMount, sorry everyone!

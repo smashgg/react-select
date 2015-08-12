@@ -2,12 +2,15 @@
 
 var React = require('react');
 var Select = require('react-select');
+var GravatarOption = require('./CustomOption');
+var GravatarValue = require('./CustomSingleValue');
 
 var STATES = require('./data/states');
+var USERS = require('./data/users');
 var id = 0;
 
-function logChange(value) {
-	console.log('Select value changed: ' + value);
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed: '], Array.prototype.slice.apply(arguments)));
 }
 
 var CountrySelect = React.createClass({
@@ -17,6 +20,118 @@ var CountrySelect = React.createClass({
 	render: function() {
 		var className = this.props.value === this.props.selected ? 'active' : 'link';
 		return <span onClick={this.onClick} className={className}>{this.props.children}</span>;
+	}
+});
+
+var UsersField = React.createClass({
+	getDefaultProps: function () {
+		return {
+			searchable: true,
+			label: 'Users: (with custom option and value component)'
+		};
+	},
+	render: function() {
+
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
+					onOptionLabelClick={this.onLabelClick}
+					placeholder="Select user"
+					optionComponent={GravatarOption}
+					singleValueComponent={GravatarValue}
+					options={USERS.users}/>
+			</div>
+		);
+	}
+});
+
+var ValuesAsNumbersField = React.createClass({
+	
+	getInitialState: function () {
+		return {
+			options: [
+				{ value: 10, label: 'Ten' },
+				{ value: 11, label: 'Eleven' },
+				{ value: 12, label: 'Twelve' },
+				{ value: 23, label: 'Twenty-three' },
+				{ value: 24, label: 'Twenty-three' }
+			],
+			matchPos: 'any',
+			matchValue: true,
+			matchLabel: true,
+			value: null,
+			multi: false
+		};
+	},
+	
+	onChangeMatchStart(event) {
+		this.setState({
+			matchPos: event.target.checked ? 'start' : 'any'
+		});
+	},
+
+	onChangeMatchValue(event) {
+		this.setState({
+			matchValue: event.target.checked
+		});
+	},
+
+	onChangeMatchLabel(event) {
+		this.setState({
+			matchLabel: event.target.checked
+		});
+	},
+	
+	onChange(value, values) {
+		this.setState({
+			value: value
+		});
+		logChange(value, values);
+	},
+	
+	onChangeMulti(event) {
+		this.setState({
+			multi: event.target.checked
+		});
+	},
+	
+	render: function () {
+		
+		var matchProp = 'any';
+		
+		if (this.state.matchLabel && !this.state.matchValue) {
+			matchProp = 'label';
+		}
+		
+		if (!this.state.matchLabel && this.state.matchValue) {
+			matchProp = 'value';
+		}
+		
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
+					searchable={true}
+					matchProp={matchProp}
+					matchPos={this.state.matchPos}
+					options={this.state.options}
+					onChange={this.onChange}
+					value={this.state.value}
+					multi={this.state.multi}
+					/>
+				<div>
+					<label htmlFor="values-as-numbers-multi">Multi-Select?</label>
+					<input type="checkbox" id="values-as-numbers-multi" checked={this.state.multi} onChange={this.onChangeMulti} />
+					<label htmlFor="values-as-numbers-matchstart">Match only at start?</label>
+					<input type="checkbox" id="values-as-numbers-matchstart" checked={this.state.matchPos === 'start'} onChange={this.onChangeMatchStart} />
+					<label htmlFor="values-as-numbers-matchvalue">Match value?</label>
+					<input type="checkbox" id="values-as-numbers-matchvalue" checked={this.state.matchValue} onChange={this.onChangeMatchValue} />
+					<label htmlFor="values-as-numbers-matchlabel">Match label?</label>
+					<input type="checkbox" id="values-as-numbers-matchlabel" checked={this.state.matchLabel} onChange={this.onChangeMatchLabel} />
+				</div>
+			</div>
+		);
 	}
 });
 
@@ -189,6 +304,35 @@ var SelectedValuesField = React.createClass({
 	}
 });
 
+
+var SelectedValuesFieldDisabled = React.createClass({
+	onLabelClick: function (data, event) {
+		console.log(data, event);
+	},
+	render: function() {
+		var ops = [
+			{ label: 'Chocolate', value: 'chocolate' },
+			{ label: 'Vanilla', value: 'vanilla' },
+			{ label: 'Strawberry', value: 'strawberry' },
+			{ label: 'Caramel (You don\'t like it, apparently)', value: 'caramel', disabled: true },
+			{ label: 'Cookies and Cream', value: 'cookiescream' },
+			{ label: 'Peppermint', value: 'peppermint' }
+		];
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
+					onOptionLabelClick={this.onLabelClick}
+					value="chocolate,vanilla,strawberry"
+					multi={true}
+					placeholder="Select your favourite(s)"
+					options={ops}
+					onChange={logChange} />
+			</div>
+		);
+	}
+});
+
 var SelectedValuesFieldCreate = React.createClass({
 	onLabelClick: function (data, event) {
 		console.log(data, event);
@@ -236,6 +380,38 @@ var CustomRenderField = React.createClass({
 			<div>
 				<label>{this.props.label}</label>
 				<Select
+					allowCreate={true}
+					placeholder="Select your favourite"
+					options={ops}
+					optionRenderer={this.renderOption}
+					valueRenderer={this.renderValue}
+					onChange={logChange} />
+			</div>
+		);
+	}
+});
+
+var CustomRenderMultiField = React.createClass({
+	onLabelClick: function (data, event) {
+		console.log(data, event);
+	},
+	renderOption: function(option) {
+		return <span style={{ color: option.hex }}>{option.label} ({option.hex})</span>;
+
+	},
+	renderValue: function(option) {
+		return <strong style={{ color: option.hex }}>{option.label}</strong>;
+	},
+	render: function() {
+		var ops = [
+			{ label: 'Red', value: 'red', hex: '#EC6230' },
+			{ label: 'Green', value: 'green', hex: '#4ED84E' },
+			{ label: 'Blue', value: 'blue', hex: '#6D97E2' }
+		];
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
 					delimiter=","
 					multi={true}
 					allowCreate={true}
@@ -253,10 +429,14 @@ React.render(
 	<div>
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
+		<UsersField />
+		<ValuesAsNumbersField label="Values as numbers" />
 		<MultiSelectField label="Multiselect:"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" />
+		<SelectedValuesFieldDisabled label="Disabled option:" />
 		<SelectedValuesFieldCreate label="Option Creation (tags mode):" />
 		<CustomRenderField label="Custom rendering for options and values:" />
+		<CustomRenderMultiField label="Custom rendering for multiple options and values:" />
 		<RemoteSelectField label="Remote Options:"/>
 	</div>,
 	document.getElementById('example')
