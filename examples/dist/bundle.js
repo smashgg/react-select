@@ -1125,7 +1125,6 @@ var Select = _react2['default'].createClass({
 		menuRenderer: _react2['default'].PropTypes.func, // renders a custom menu with options
 		menuStyle: _react2['default'].PropTypes.object, // optional style to apply to the menu
 		multi: _react2['default'].PropTypes.bool, // multi-value input
-		mutateOptions: _react2['default'].PropTypes.func, // optional function to modify options before rendering menu
 		name: _react2['default'].PropTypes.string, // generates a hidden <input /> tag with this field name for html forms
 		noResultsText: stringOrNode, // placeholder displayed when there are no matching search results
 		onBlur: _react2['default'].PropTypes.func, // onBlur handler: function (event) {}
@@ -1189,7 +1188,6 @@ var Select = _react2['default'].createClass({
 			matchProp: 'any',
 			menuBuffer: 0,
 			menuRenderer: _utilsDefaultMenuRenderer2['default'],
-			mutateOptions: undefined,
 			multi: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
@@ -2036,10 +2034,6 @@ var Select = _react2['default'].createClass({
 
 	renderMenu: function renderMenu(options, valueArray, focusedOption) {
 		if (options && options.length) {
-			if (this.props.mutateOptions) {
-				options = this.props.mutateOptions(options);
-			}
-
 			return this.props.menuRenderer({
 				focusedOption: focusedOption,
 				focusOption: this.focusOption,
