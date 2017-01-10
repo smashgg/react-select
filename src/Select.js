@@ -78,6 +78,7 @@ const Select = React.createClass({
 		menuRenderer: React.PropTypes.func,         // renders a custom menu with options
 		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
 		multi: React.PropTypes.bool,                // multi-value input
+		mutateOptions: React.PropTypes.func,        // optional function to modify options before rendering menu
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		noResultsText: stringOrNode,                // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
@@ -141,6 +142,7 @@ const Select = React.createClass({
 			matchProp: 'any',
 			menuBuffer: 0,
 			menuRenderer: defaultMenuRenderer,
+			mutateOptions: undefined,
 			multi: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
@@ -953,6 +955,10 @@ const Select = React.createClass({
 
 	renderMenu (options, valueArray, focusedOption) {
 		if (options && options.length) {
+			if (this.props.mutateOptions) {
+				options = this.props.mutateOptions(options);
+			}
+
 			return this.props.menuRenderer({
 				focusedOption,
 				focusOption: this.focusOption,
