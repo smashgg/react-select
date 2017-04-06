@@ -3,6 +3,7 @@ import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
 
 const propTypes = {
+	multi: React.PropTypes.bool.isRequired,          // determines if you can have multiple values
 	autoload: React.PropTypes.bool.isRequired,       // automatically call the `loadOptions` prop on-mount; defaults to true
 	cache: React.PropTypes.any,                      // object to use to cache results; set to null/false to disable caching
 	children: React.PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
@@ -187,7 +188,7 @@ export default class Async extends Component {
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
 			onChange: (newValues) => {
-				if (this.props.value && (newValues.length > this.props.value.length)) {
+				if (this.props.value && !this.props.multi && (newValues.length > this.props.value.length)) {
 					this.clearOptions();
 				}
 				this.props.onChange(newValues);
