@@ -1649,7 +1649,7 @@ var Select = _react2['default'].createClass({
 						onRemove: _this4.removeValue,
 						value: value
 					},
-					value,
+					renderedValue,
 					_react2['default'].createElement(
 						'span',
 						{ className: 'Select-aria-only' },
@@ -1672,7 +1672,7 @@ var Select = _react2['default'].createClass({
 					onClick: onClick,
 					value: valueArray[0]
 				},
-				value
+				renderedValue
 			);
 		}
 	},
@@ -1833,7 +1833,7 @@ var Select = _react2['default'].createClass({
 
 		if (!this.props.name) return;
 		if (this.props.joinValues) {
-			var _value = valueArray.map(function (i) {
+			var value = valueArray.map(function (i) {
 				return stringifyValue(i[_this6.props.valueKey]);
 			}).join(this.props.delimiter);
 			return _react2['default'].createElement('input', {
@@ -1842,7 +1842,7 @@ var Select = _react2['default'].createClass({
 					return _this6.value = ref;
 				},
 				name: this.props.name,
-				value: _value,
+				value: value,
 				disabled: this.props.disabled });
 		}
 		return valueArray.map(function (item, index) {

@@ -807,7 +807,7 @@ const Select = React.createClass({
 						onRemove={this.removeValue}
 						value={value}
 					>
-						{value}
+						{renderedValue}
 						<span className="Select-aria-only">&nbsp;</span>
 					</ValueComponent>
 				);
@@ -826,7 +826,7 @@ const Select = React.createClass({
 					onClick={onClick}
 					value={valueArray[0]}
 				>
-					{value}
+					{renderedValue}
 				</ValueComponent>
 			);
 		}
