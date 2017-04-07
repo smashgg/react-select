@@ -861,6 +861,7 @@ var Select = _react2['default'].createClass({
 		clearAllText: stringOrNode, // title for the "clear" control when multi: true
 		clearValueText: stringOrNode, // title for the "clear" control
 		clearable: _react2['default'].PropTypes.bool, // should it be possible to reset value
+		closeMenuOnClick: _react2['default'].PropTypes.bool, // Whether selecting a value closes option menu. ATM only makes a difference for !multi
 		deleteRemoves: _react2['default'].PropTypes.bool, // whether backspace removes an item if there is no text input
 		delimiter: _react2['default'].PropTypes.string, // delimiter to use to join multiple values for the hidden field value
 		disabled: _react2['default'].PropTypes.bool, // whether the Select is disabled or not
@@ -930,6 +931,7 @@ var Select = _react2['default'].createClass({
 			clearable: true,
 			clearAllText: 'Clear all',
 			clearValueText: 'Clear value',
+			closeMenuOnClick: true,
 			deleteRemoves: true,
 			delimiter: ',',
 			disabled: false,
@@ -1449,7 +1451,7 @@ var Select = _react2['default'].createClass({
 			});
 		} else {
 			this.setState({
-				isOpen: false,
+				isOpen: !this.props.closeMenuOnClick,
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused
 			}, function () {
