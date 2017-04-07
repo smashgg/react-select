@@ -1634,6 +1634,10 @@ var Select = _react2['default'].createClass({
 		var onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
 			return valueArray.map(function (value, i) {
+				var renderedValue = renderLabel(value, i);
+				if (!renderedValue) {
+					return null;
+				}
 				return _react2['default'].createElement(
 					ValueComponent,
 					{
@@ -1645,7 +1649,7 @@ var Select = _react2['default'].createClass({
 						onRemove: _this4.removeValue,
 						value: value
 					},
-					renderLabel(value, i),
+					value,
 					_react2['default'].createElement(
 						'span',
 						{ className: 'Select-aria-only' },
@@ -1654,6 +1658,10 @@ var Select = _react2['default'].createClass({
 				);
 			});
 		} else if (!this.state.inputValue) {
+			var renderedValue = renderLabel(valueArray[0]);
+			if (!renderedValue) {
+				return null;
+			}
 			if (isOpen) onClick = null;
 			return _react2['default'].createElement(
 				ValueComponent,
@@ -1664,7 +1672,7 @@ var Select = _react2['default'].createClass({
 					onClick: onClick,
 					value: valueArray[0]
 				},
-				renderLabel(valueArray[0])
+				value
 			);
 		}
 	},
@@ -1825,7 +1833,7 @@ var Select = _react2['default'].createClass({
 
 		if (!this.props.name) return;
 		if (this.props.joinValues) {
-			var value = valueArray.map(function (i) {
+			var _value = valueArray.map(function (i) {
 				return stringifyValue(i[_this6.props.valueKey]);
 			}).join(this.props.delimiter);
 			return _react2['default'].createElement('input', {
@@ -1834,7 +1842,7 @@ var Select = _react2['default'].createClass({
 					return _this6.value = ref;
 				},
 				name: this.props.name,
-				value: value,
+				value: _value,
 				disabled: this.props.disabled });
 		}
 		return valueArray.map(function (item, index) {

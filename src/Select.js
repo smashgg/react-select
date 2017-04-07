@@ -793,6 +793,10 @@ const Select = React.createClass({
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
 			return valueArray.map((value, i) => {
+				let renderedValue = renderLabel(value, i);
+				if (!renderedValue) {
+					return null;
+				}
 				return (
 					<ValueComponent
 						id={this._instancePrefix + '-value-' + i}
@@ -803,12 +807,16 @@ const Select = React.createClass({
 						onRemove={this.removeValue}
 						value={value}
 					>
-						{renderLabel(value, i)}
+						{value}
 						<span className="Select-aria-only">&nbsp;</span>
 					</ValueComponent>
 				);
 			});
 		} else if (!this.state.inputValue) {
+			let renderedValue = renderLabel(valueArray[0]);
+			if (!renderedValue) {
+				return null;
+			}
 			if (isOpen) onClick = null;
 			return (
 				<ValueComponent
@@ -818,7 +826,7 @@ const Select = React.createClass({
 					onClick={onClick}
 					value={valueArray[0]}
 				>
-					{renderLabel(valueArray[0])}
+					{value}
 				</ValueComponent>
 			);
 		}
