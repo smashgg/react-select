@@ -10,10 +10,10 @@ function reduce(obj, props = {}){
   }, props);
 }
 
-class AsyncCreatable extends React.Component {
-    static displayName = 'AsyncCreatableSelect';
+const AsyncCreatable = React.createClass({
+	displayName: 'AsyncCreatableSelect',
 
-    render() {
+	render () {
 		return (
 			<Select.Async {...this.props}>
 				{(asyncProps) => (
@@ -36,6 +36,6 @@ class AsyncCreatable extends React.Component {
 			</Select.Async>
 		);
 	}
-}
+});
 
 module.exports = AsyncCreatable;
