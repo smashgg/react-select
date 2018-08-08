@@ -3,7 +3,7 @@ import React from 'react';
 import createReactClass from 'create-react-class';
 import classNames from 'classnames';
 
-const Value = React.createReactClass({
+const Value = createReactClass({
 
 	displayName: 'Value',
 
